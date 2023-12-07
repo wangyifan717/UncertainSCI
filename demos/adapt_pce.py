@@ -11,6 +11,7 @@ from UncertainSCI.model_examples import KLE_exponential_covariance_1d, \
                                         laplace_ode, laplace_grid_x
 from UncertainSCI.indexing import TotalDegreeSet
 from UncertainSCI.pce import PolynomialChaosExpansion
+from UncertainSCI.utils.version import version_lessthan
 
 
 animate = True
@@ -76,8 +77,7 @@ Nstarting_samples = pce.samples.shape[0]
 initial_accuracy = pce.accuracy_metrics.copy()
 
 # pce.adapt_robustness(max_new_samples=50)
-residuals, loocvs, added_indices, added_samples = \
-        pce.adapt_expressivity(max_new_samples=100, add_rule=3)
+residuals, loocvs, added_indices, added_samples = pce.adapt_expressivity(max_new_samples=100, add_rule=3)
 
 # # Postprocess PCE: mean, stdev, sensitivities, quantiles
 mean = pce.mean()
@@ -113,7 +113,11 @@ for j in range(M):
 
 MC_mean = np.mean(output, axis=0)
 MC_stdev = np.std(output, axis=0)
-MC_quantiles = np.quantile(output, quantile_levels, axis=0)
+if version_lessthan(np,'1.15'):
+    from scipy.stats.mstats import mquantiles
+    MC_quantiles = mquantiles(output, quantile_levels, axis=0)
+else:
+    MC_quantiles = np.quantile(output, quantile_levels, axis=0)
 MC_median = quantiles[-1, :]
 
 # # Visualization

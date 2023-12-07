@@ -213,14 +213,18 @@ The whole paragraph will need to be in the eval_rst block :cite:p:`JDT:Bur2020`.
 add a bibliography section
 ````
 ```eval_rst
-.. bibliography::
+.. bibliography:: ../references.bib
 ```
 ````
+<!---
+TODO: move bibliography section back here when docutils and rtd theme play nicely together
 
 #### Bibliography
 ```eval_rst
-.. bibliography::
+.. bibliography:: ../references.bib
 ```
+
+-->
 
 ### Snippets
 
@@ -286,9 +290,11 @@ Tables can be used with normal markdown syntax with the [sphinx-markdown-tables]
 
 To link the UncertainSCI API generated using Sphinx, Use this syntax: [`[text](../api_docs/pce.html#polynomial-chaos-expansions)`](../api_docs/pce.html#polynomial-chaos-expansions).  
 
+
+
 ## Content Guide
 
-TODO
+Try to be comprehensive, yet consise, and keep in mind the target audience for the tutorial. It is ok to write an advanced tutorial that builds on more basic knowledge, but please make this expectation clear and link to tutorials and materials that will help the reader develop the required understanding.  Include code snippets, example scripts, screenshots, and videos as appropriate.  Please use [existing tutorials](../tutorials/index.html#Contents) as try to match the style, flow, and level of detail they provide.   
 
 ## Supplemental Materials
 
@@ -323,3 +329,9 @@ With the embed link, just include the html into the markdown file.
 
 Datasets should be located serperately, unless the size is small.  Please [ask](https://github.com/SCIInstitute/UncertainSCI/discussions) if you have any questions. 
 
+<!--- TODO: see above Bibliography note -->
+
+### Bibliography
+```eval_rst
+.. bibliography:: ../references.bib
+```

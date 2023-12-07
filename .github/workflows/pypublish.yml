@@ -1,0 +1,45 @@
+name: Publish Python distribution to PyPI and TestPyPI
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build-wheel:
+    uses: ./.github/workflows/pypackage.yml
+  upload_testpypi:
+    name: Publish build to TestPyPI
+    needs: [build-wheel]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://test.pypi.org/p/UncertainSCI
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact
+          path: dist
+      - name: Upload to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+  upload_pypi:
+    name: Publish build to PyPI
+    needs: [build-wheel, upload_testpypi]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/UncertainSCI
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: artifact
+          path: dist
+      - name: Upload to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
